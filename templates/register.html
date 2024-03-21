@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Bootstrap JS and Popper.js (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px; /* Adjust the maximum width as needed */
+            margin: 0 auto; /* Center the container */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .form-style{
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            text-align: center;border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Fill the Form</h1>
+
+       <br>
+        <form method="post" action="" class="form-style">
+            <br>
+            <div class="form-group">
+                <label for="firstName" class="label" style="width:70%; margin-left:40px;">First Name:</label>
+                <input type="text" name="firstName" class="form-control" required style="width:70%; margin-left:80px;">
+            </div>
+
+            <div class="form-group">
+                <label for="LastName" style=" margin-left:40px;">Last Name:</label>
+                <input type="text" name="lastName" class="form-control" required style="width:70%; margin-left:80px;">
+            </div>
+
+            <div class="form-group">
+                <label for="nationalID" style=" margin-left:40px;" >National ID:</label>
+                <input type="text" name="nationalId" class="form-control" required style="width:70%; margin-left:80px;">
+            </div>
+
+            <div class="form-group">
+                <label for="email" style=" margin-left:40px;" >Email:</label>
+                <input type="email" name="email" class="form-control" required style="width:70%; margin-left:80px;">
+            </div>
+
+            <div class="form-group">
+                <label for="cellphone" style=" margin-left:40px;" >Telephone:</label>
+                <input type="text" name="cellphone" class="form-control" required style="width:70%; margin-left:80px;">
+            </div>
+
+            <div class="form-group">
+                <label for="password" style=" margin-left:40px;" >Password:</label>
+                <input type="password" class="form-control " id="password" name="password" required style="width:70%; margin-left:80px;">
+            </div>
+
+            <div class="form-group">
+                <label for="date" style=" margin-left:40px;" > Confirm Password:</label>
+                <input type="password" name="confirmPassword" class="form-control" required style="width:70%; margin-left:80px;"> 
+            </div>
+
+            <button type="submit" class="btn"style="width:70%; margin-left:80px;">Save</button>
+            <br><br>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (you can include only the ones you need) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap Datepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    
+</body>
+</html>

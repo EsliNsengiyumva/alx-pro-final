@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latitude and Longitude Finder</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; }
+    </style>
+</head>
+<body>
+
+<div>
+    <h2>Latitude and Longitude Finder</h2>
+    <form id="locationForm">
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitude" name="latitude" readonly>
+        <br>
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitude" name="longitude" readonly>
+        <br>
+        <button type="button" id="findCoordinates">Find Coordinates</button>
+    </form>
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var mymap = L.map('map').setView([0, 0], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mymap);
+
+    var marker;
+
+    mymap.on('click', function(e) {
+        var latitude = e.latlng.lat.toFixed(6);
+        var longitude = e.latlng.lng.toFixed(6);
+
+        document.getElementById('latitude').value = latitude;
+        document.getElementById('longitude').value = longitude;
+
+        if (marker) {
+            mymap.removeLayer(marker);
+        }
+
+        marker = L.marker([latitude, longitude]).addTo(mymap);
+    });
+
+    document.getElementById('findCoordinates').addEventListener('click', function () {
+        alert('Coordinates Found!');
+    });
+</script>
+
+</body>
+</html>

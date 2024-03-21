@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Flash with Popup</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    
+    <a href="{{ url_for('show_popup') }}" class="btn btn-primary">Show Flash Message with Popup</a>
+
+    <style>
+        /* Style for the popup */
+        #flash-popup {
+            
+            top: -300px;
+            right: 50%;
+            width: 300px;
+            
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            display: none;
+            align:center
+        }
+    </style>
+</head>
+<body>
+
+   
+
+    <!-- Trigger button to show the flash message and popup -->
+    <a href="{{ url_for('show_popup') }}" class="btn btn-primary">Show Flash Message with Popup</a>
+
+    <!-- Popup container for flash message -->
+    <div id="flash-popup">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+    </div>
+
+    <!-- JavaScript for popup functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Show the popup if there are flash messages
+            var flashPopup = document.getElementById('flash-popup');
+            if (flashPopup.innerHTML.trim() !== '') {
+                flashPopup.style.display = 'block';
+                // Hide the popup after a few seconds (adjust as needed)
+                setTimeout(function () {
+                    flashPopup.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+
+</body>
+</html>

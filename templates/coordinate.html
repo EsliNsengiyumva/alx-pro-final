@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... (head section) ... -->
+</head>
+<body>
+
+<div>
+    <h2>Location to Latitude and Longitude Finder</h2>
+    <form id="locationForm" action="/geocode" method="post">
+        <label for="location">Location Name:</label>
+        <input type="text" id="location" name="location" required>
+        <button type="submit">Find Coordinates</button>
+    </form>
+
+    {% if latitude and longitude %}
+        <p>Location: {{ location }}</p>
+        <p>Latitude: {{ latitude }}</p>
+        <p>Longitude: {{ longitude }}</p>
+    {% elif error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Leaflet map setup
+    var mymap = L.map('map').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mymap);
+
+    // Marker for displaying found coordinates
+    var marker;
+
+    // Function to show the found coordinates on the map
+    function showCoordinates(latitude, longitude) {
+        if (marker) {
+            mymap.removeLayer(marker);
+        }
+
+        marker = L.marker([latitude, longitude]).addTo(mymap);
+        mymap.setView([latitude, longitude], 15);
+    }
+
+    // Check if latitude and longitude are present in the HTML
+    var latitude = '{{ latitude }}';
+    var longitude = '{{ longitude }}';
+
+    if (latitude && longitude) {
+        showCoordinates(parseFloat(latitude), parseFloat(longitude));
+    }
+</script>
+
+</body>
+</html>

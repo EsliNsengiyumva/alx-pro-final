@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from model.user import User
 from dbConnection.connection import DbConnect
-from daoServices.crud import CRUDOperations
+from daoServices.crudUser import CrudUserOperation
 
 app = Flask(__name__)
 
@@ -14,7 +14,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 # Initialize CRUD operations
-crud = CRUDOperations(session)
+crud = CrudUserOperation(session)
 
 @app.route('/')
 def index():

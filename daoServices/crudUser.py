@@ -1,7 +1,8 @@
 from dbConnection.connection import DbConnect
-from model.user import User
+from model.user import *
 
-class CRUDOperations:
+
+class CrudUserOperation:
     def __init__(self, db_url):
         self.db = DbConnect(db_url)
 

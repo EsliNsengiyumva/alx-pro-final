@@ -7,30 +7,30 @@ Base = declarative_base()
 class Entity(Base):
     __tablename__ = 'entities'
 
-    idEntity = Column(Integer, primary_key=True)
-    entityName = Column(String)
-    tinNumber = Column(String)
+    id_entity = Column(Integer, primary_key=True)
+    entity_name = Column(String)
+    tin_number = Column(String)
 
 class Category(Base):
     __tablename__ = 'categories'
 
-    idCategory = Column(Integer, primary_key=True)
-    name = Column(String)
-    entity_id = Column(Integer, ForeignKey('entities.idEntity'))
+    id_category = Column(Integer, primary_key=True)
+    category_name = Column(String)
+    entity_id = Column(Integer, ForeignKey('entities.id_entity'))
     entity = relationship(Entity)
 
 class WaterCategory(Category):
     __tablename__ = 'water_categories'
 
-    idWaterCategory = Column(Integer, primary_key=True)
-    typeOfWater = Column(String)
-    useOfWater = Column(String)
-    sourceOfWater = Column(String)
+    id_water_category = Column(Integer, primary_key=True)
+    type_of_water = Column(String)
+    use_of_water = Column(String)
+    source_of_water = Column(String)
 
 class WaterLocation(Base):
     __tablename__ = 'water_locations'
 
-    idLocation = Column(Integer, primary_key=True)
+    id_location = Column(Integer, primary_key=True)
     province = Column(String)
     district = Column(String)
     sector = Column(String)
@@ -39,7 +39,7 @@ class WaterLocation(Base):
     street = Column(String)
     latitude = Column(Float)
     longitude = Column(Float)
-    water_category_id = Column(Integer, ForeignKey('water_categories.idWaterCategory'))
+    water_category_id = Column(Integer, ForeignKey('water_categories.id_water_category'))
     water_category = relationship(WaterCategory)
 
 # Create engine and tables

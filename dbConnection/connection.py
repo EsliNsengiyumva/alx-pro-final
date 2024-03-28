@@ -13,14 +13,6 @@ class DbConnect:
         except mysql.connector.Error as error:
             print('Error:', error)
 
-    def close_connection(self):
-        # Close the cursor and connection
-        if hasattr(self, 'cursor') and self.cursor:
-            self.cursor.close()
-        if hasattr(self, 'conn') and self.conn:
-            self.conn.close()
-        print('Connection closed!')
-
     def execute_query(self, query):
         # Execute SQL queries using the 'cursor' object
         if hasattr(self, 'cursor') and self.cursor:
@@ -48,5 +40,3 @@ test_instance.establish_connection()
 # Example query execution
 # query = "SELECT * FROM users"
 # test_instance.execute_query(query)
-
-test_instance.close_connection()

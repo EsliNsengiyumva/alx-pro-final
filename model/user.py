@@ -5,8 +5,8 @@ from sqlalchemy.orm import sessionmaker
 Base = declarative_base()
 
 class User(Base):
-    __tablename__ = 'users'
-
+    __tablename__ = 'water_permit_user'
+    
     user_id = Column(Integer, primary_key=True)
     first_name = Column(String)
     last_name = Column(String)

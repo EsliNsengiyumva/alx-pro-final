@@ -13,7 +13,27 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <title>Water Permit Application</title>
+    <link rel="icon"  href="static/img/favicon.png">
 </head>
+<style>
+    /* Set the left and right margins to 7cm */
+    body {
+      margin-left: 6cm;
+      margin-right:6cm;
+    }
+    
+    /* Example content styling */
+    .content {
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+    
+    .btn-group .btn {
+        margin-right: 10px; /* Add 10px margin between buttons */
+        width:100px;
+      }
+      
+  </style>
 <body>
 
 <div class="container mt-5"style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -23,12 +43,12 @@ text-align: center;border-radius: 5px;">
         <!-- Section 1: Applicant Details -->
         <h3>1. Applicant Details</h3>
         <div class="form-group">
-            <label for="fullName" >Full Name of the Applicant:</label>
+            <label for="fullName" >Applicant Full Name:</label>
             <input type="text" class="form-control" id="fullName" name="fullName" required>
         </div>
 
         <div class="form-group">
-            <label for="category">Category of the Applicant:</label>
+            <label for="category">Applicant Category:</label>
             <select class="form-control" id="category" name="category" required>
                 <option value="Individual">Individual</option>
                 <option value="Company">Company</option>
@@ -38,16 +58,20 @@ text-align: center;border-radius: 5px;">
             </select>
         </div>
         <div class="form-group">
-            <label for="representative">Name of the Representative :</label>
-            <input type="text" class="form-control" id="representative" name="representative" required>
+            <label for="applicantType">Applicant Type :</label>
+            <select class="form-control" id="category" name="category" required>
+                <option value="Representitive">Representitive</option>
+                <option value="Owner">Owner of Application</option>
+                <option value="Other">Other</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="address">Office Address :</label>
-            <input type="text" class="form-control" id="address" name="address" required>
+            <label for="identity">National Identity :</label>
+            <input type="text" class="form-control" id="identity" name="identity" required>
         </div>
 
         <div class="form-group">
-            <label for="telephoneContact">Telephone contact:</label>
+            <label for="telephoneContact">Phone Number:</label>
             <input type="tel" class="form-control" id="telephoneContact" name="telephoneContact" required>
         </div>
         
@@ -55,12 +79,16 @@ text-align: center;border-radius: 5px;">
             <label for="emailAddress">Email Address:</label>
             <input type="email" class="form-control" id="emailAddress" name="emailAddress" required>
         </div>
+        <div class="form-group">
+            <label for="applicationDate">Application Date:</label>
+            <input type="date" class="form-control" id="applicationDate" name="applicationDate" required>
+        </div>
         <!-- Add other applicant details as needed -->
 
         <!-- Section 2: Source of Water Details -->
         <h3>2. Source of Water Details</h3>
         <div class="form-group">
-            <label for="sourceType">Source of Water:</label>
+            <label for="sourceType">Water Source Type:</label>
             <select class="form-control" id="sourceType" name="sourceType" required>
                 <option value="Lake">Lake</option>
                 <option value="Dam">Dam</option>
@@ -71,17 +99,14 @@ text-align: center;border-radius: 5px;">
             </select>
         </div>
         <div class="form-group">
-            <label for="sourceofwater">Name of Source of Water:</label>
+            <label for="sourceofwater">Water source Name:</label>
             <input type="text" class="form-control" id="sourceofwater" name="sourceofwater" required>
         </div>
-        <div class="form-group">
-            <label for="tributary">Tributary to (Main river/Lake):</label>
-            <input type="text" class="form-control" id="tributary" name="tributary" required>
-        </div>
+        
 
         <!-- Add other source of water details as needed -->
         <div class="form-group">
-            <label for="location">Location of the Water Source:</label>
+            <label for="location">Water Source Location:</label>
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#locationModal">Open Location Popup</button>
         </div>
         
@@ -99,35 +124,62 @@ text-align: center;border-radius: 5px;">
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="province">Province:</label>
-                            <input type="text" class="form-control" id="province" name="province" required>
+                            Province:<input type="text" class="form-control" id="province" name="province" required>
                         </div>
                         <div class="form-group">
-                            <label for="district">District:</label>
-                            <input type="text" class="form-control" id="district" name="district" required>
+                           District:<input type="text" class="form-control" id="district" name="district" required>
                         </div>
                         <div class="form-group">
-                            <label for="sector">Sector:</label>
-                            <input type="text" class="form-control" id="sector" name="sector" required>
+                          Sector:<input type="text" class="form-control" id="sector" name="sector" required>
                         </div>
                         <div class="form-group">
                             <label for="cell">Cell:</label>
                             <input type="text" class="form-control" id="cell" name="cell" required>
                         </div>
-                        <div class="form-group">
-                            <label for="village">Village:</label>
-                            <input type="text" class="form-control" id="village" name="village" required>
+                        <div class="row">
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="village">Village:</label>
+                                <input type="text" class="form-control" id="village" name="village">
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="street">Street:</label>
+                                <input type="text" class="form-control" id="street" name="street">
+                            </div>
+                            </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="longitude">Longitude:</label>
+                                <input type="text" class="form-control" id="longitude" name="longitude">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="latitude">Latitude:</label>
+                                <input type="text" class="form-control" id="latitude" name="latitude">
+                              </div>
+                            </div>
+                          </div>
                     </div>
-                    <div class="btn-group">
-                        <a href="#" class="btn btn-primary">Save</a>
-                        <a href="#" class="btn btn-secondary">Close</a>
-                    </div>
+                    
+                        <div class="row justify-content-center">
+                          <div class="col-auto">
+                            <div class="btn-group">
+                              <a href="#" class="btn btn-primary" style="">Save</a> 
+                              <a href="#" class="btn btn-secondary">Close</a>
+                            </div>
+                          </div>
+                        </div>
+                     
                 </div>
             </div>
         </div>
-        <!-- Section 3: Intended Activity -->
-        <h3>3. Intended Activity</h3>
+        <!-- Section 3: Water Intended Activity -->
+        <h3>3. Water Intended Activity</h3>
         <!-- Add checkboxes for intended activity -->
         <div class="form-group">
             <label>Tick one or more boxes as appropriate:</label>
@@ -185,9 +237,13 @@ text-align: center;border-radius: 5px;">
                 </label>
             </div>
         </div>
-        <h3>5. Document of Applicant:</h3>
+        <h3>5. Documents of Applicant:</h3>
         <div class="form-group">
-            <label>Documents of Applicant:</label>
+            <label for="documentName">Name of Document:</label>
+            <input type="document" class="form-control" id="documentName" name="documentName" required>
+        </div>
+        <div class="form-group">
+            <label>Uploaded Document:</label>
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="documentUpload" name="documentUpload" required>
                 <label class="custom-file-label" for="documentUpload">Choose file</label>
@@ -202,9 +258,14 @@ text-align: center;border-radius: 5px;">
        
         <!-- Add payment details -->
         <div class="form-group">
-            <label for="sourceType">Type of payment:</label>
+            <label for="paymentAmount" >Payment amount:</label>
+            <input type="text" class="form-control" id="paymentAmount" name="paymentAmount" required>
+        </div>
+        <div class="form-group">
+                      
+            <label for="sourceType">Payment Type:</label>
             <select class="form-control" id="sourceType" name="sourceType" required>
-                <option value="Lake">By Account</option>
+                <option value="Lake">Bank Account</option>
                 <option value="Dam">Momo</option>
                 <option value="Spring">Pay Pal</option>
                 

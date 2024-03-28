@@ -1,30 +1,65 @@
 from dbConnection.connection import DbConnect
 from model.application import *
 from model.entity import *
-
+from model.user import User
 
 class CrudApplicationOperation:
+       
     def __init__(self, db_url):
         try:
             self.db = DbConnect(db_url)
         except Exception as e:
             print(f"Error initializing database connection: {e}")
 
-
-    def create_water_permit_application(self, id_of_app, permit_representative, permit_ownership, intended_activities, state_app, date_app, user_id):
+   
+    def create_water_permit_application(self,id_of_app, full_Name, applicant_category,applicant_type, national_id, 
+                                        teleph_number,email_id,date_app, user_id,water_source_type,water_source_name,water_land_use_owner,water_intended_activities,
+                                        province,district, sector, cell,village,latitude,longitude,
+                                        payment_amount,payment_type,file_name,file_upload):
         try:
             session = self.db.get_session()
-            new_application = WaterPermitApplication(id_of_app=id_of_app, permit_representative=permit_representative, permit_ownership=permit_ownership, 
-                                                    intended_activities=intended_activities, 
-                                                    state_app=state_app, date_app=date_app, user_id=user_id)
+            new_application = WaterPermitApplication(id_of_app=id_of_app, full_Name=full_Name, applicant_category=applicant_category,applicant_type=applicant_type, 
+                                                    national_id=national_id,teleph_number=teleph_number,email_id=email_id,date_app=date_app,state_app=StateAppEnum.PENDING, user_id=user_id)
             session.add(new_application)
+            
+            
+                       
+            new_water_source = WaterSourceCategory( water_source_type=water_source_type,  water_source_name=water_source_name, 
+                                             water_land_use_owner=water_land_use_owner,
+                                             water_intended_activities=water_intended_activities,                                            
+                                            water_permit_application=new_application)
+            session.add(new_water_source)
+            
+            
+                        
+            new_location = WaterPermitLocation( province=province,  district= district,sector=sector,cell=cell,village=village,
+                                               latitude=latitude,longitude=longitude,                                             
+                                            water_permit_application=new_application)
+            session.add(new_location)
+            
+                               
+            new_payment = WaterPermitPayment( payment_amount=payment_amount,  payment_type= payment_type,                                             
+                                            water_permit_application=new_application)
+            session.add(new_payment)
+            
+                     
+            new_document = FileStorage( file_name=file_name,  file_upload = file_upload ,                                             
+                                            water_permit_application=new_application)
+            session.add(new_document)
+            
             session.commit()
+            
+            print("Water Permit Created Well !")
             return new_application
+        
         except Exception as e:
             print(f"Error creating water permit application: {e}")
+            session.rollback() 
             return None
         finally:
             session.close()
+            
+    
 
     
     # Read

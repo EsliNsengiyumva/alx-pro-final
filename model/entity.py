@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, Float,Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -19,16 +19,23 @@ class Category(Base):
     entity_id = Column(Integer, ForeignKey('entities.id_entity'))
     entity = relationship(Entity)
 
-class WaterCategory(Category):
-    __tablename__ = 'water_categories'
+class WaterSourceCategory(Base):
+    __tablename__ = 'water_source_category'
 
-    id_water_category = Column(Integer, primary_key=True)
-    type_of_water = Column(String)
-    use_of_water = Column(String)
-    source_of_water = Column(String)
+    water_category_id = Column(Integer, primary_key=True)
+    water_source_type = Column(String)   	
+    water_source_name = Column(String)
+    water_land_use_owner=Column(Boolean)
+    water_intended_activities = Column(String)
+    
+    def __init__(self, water_source_type, water_source_name, water_land_use_owner, water_intended_activities):
+        self.water_source_type = water_source_type
+        self.water_source_name = water_source_name
+        self.water_land_use_owner = water_land_use_owner
+        self.water_intended_activities = water_intended_activities
 
-class WaterLocation(Base):
-    __tablename__ = 'water_locations'
+class WaterPermitLocation(Base):
+    __tablename__ = 'water_permit_location'
 
     id_location = Column(Integer, primary_key=True)
     province = Column(String)
@@ -40,8 +47,15 @@ class WaterLocation(Base):
     latitude = Column(Float)
     longitude = Column(Float)
     water_category_id = Column(Integer, ForeignKey('water_categories.id_water_category'))
-    water_category = relationship(WaterCategory)
-
-# Create engine and tables
-engine = create_engine('sqlite:///water_permit.db')
-Base.metadata.create_all(engine)
+    water_category = relationship(WaterSourceCategory)
+    
+    def __init__(self, province, district, sector, cell, village, street, latitude, longitude, water_category_id):
+        self.province = province
+        self.district = district
+        self.sector = sector
+        self.cell = cell
+        self.village = village
+        self.street = street
+        self.latitude = latitude
+        self.longitude = longitude
+        self.water_category_id = water_category_id

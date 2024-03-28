@@ -99,7 +99,7 @@ class CrudEntityOperation:
             
     def create_water_category(session, category_name, entity_id, type_of_water, use_of_water, source_of_water):
         try:
-            new_water_category = WaterCategory(category_name=category_name, entity_id=entity_id, type_of_water=type_of_water, use_of_water=use_of_water, source_of_water=source_of_water)
+            new_water_category = WaterSourceCategory(category_name=category_name, entity_id=entity_id, type_of_water=type_of_water, use_of_water=use_of_water, source_of_water=source_of_water)
             session.add(new_water_category)
             session.commit()
             print("Water category created successfully!")
@@ -110,7 +110,7 @@ class CrudEntityOperation:
 
     def get_all_water_categories(session):
         try:
-            return session.query(WaterCategory).all()
+            return session.query(WaterSourceCategory).all()
         except Exception as e:
             print(f"Error retrieving water categories: {str(e)}")
             return []
@@ -118,7 +118,7 @@ class CrudEntityOperation:
     
     def update_water_category(session, water_category_id, new_category_name, new_entity_id, new_type_of_water, new_use_of_water, new_source_of_water):
         try:
-            water_category = session.query(WaterCategory).filter_by(id_water_category=water_category_id).first()
+            water_category = session.query(WaterSourceCategory).filter_by(id_water_category=water_category_id).first()
             if water_category:
                 water_category.category_name = new_category_name
                 water_category.entity_id = new_entity_id
@@ -134,7 +134,7 @@ class CrudEntityOperation:
             
     def delete_water_category(session, water_category_id):
         try:
-            water_category = session.query(WaterCategory).filter_by(id_water_category=water_category_id).first()
+            water_category = session.query(WaterSourceCategory).filter_by(id_water_category=water_category_id).first()
             if water_category:
                 session.delete(water_category)
                 session.commit()
@@ -146,7 +146,7 @@ class CrudEntityOperation:
 
     def create_water_location(session, province, district, sector, cell, village, street, latitude, longitude, water_category_id):
         try:
-            new_water_location = WaterLocation(province=province, district=district, sector=sector, cell=cell,
+            new_water_location = WaterPermitLocation(province=province, district=district, sector=sector, cell=cell,
                                             village=village, street=street, latitude=latitude, longitude=longitude,
                                             water_category_id=water_category_id)
             session.add(new_water_location)
@@ -158,14 +158,14 @@ class CrudEntityOperation:
             
     def get_all_water_locations(session):
         try:
-            return session.query(WaterLocation).all()
+            return session.query(WaterPermitLocation).all()
         except Exception as e:
             print(f"Error retrieving water locations: {str(e)}")
             return []
     
     def update_water_location(session, location_id, new_province, new_district, new_sector, new_cell, new_village, new_street, new_latitude, new_longitude, new_water_category_id):
         try:
-            water_location = session.query(WaterLocation).filter_by(id_location=location_id).first()
+            water_location = session.query(WaterPermitLocation).filter_by(id_location=location_id).first()
             if water_location:
                 water_location.province = new_province
                 water_location.district = new_district

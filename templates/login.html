@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <!-- Favicon -->
+    <link rel="icon"  href="static/img/favicon.png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
     <style>
@@ -33,7 +35,7 @@
     <div class="container" >
         <form action="{{ url_for('login') }}" method="POST">
             <h1 class="h3 mb-3">Welcome back</h1>
-            <input type="text" class="form-control login-field" placeholder="Enter Your Email" name="username" required>
+            <input type="email" class="form-control login-field" placeholder="Enter Your Email" name="emailid" required>
             <input type="password" class="form-control login-field" placeholder="Password" name="password" required>
             <button type="submit" class="btn btn-primary btn-lg btn-block">Log in</button>
         </form>

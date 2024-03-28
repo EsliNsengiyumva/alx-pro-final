@@ -1,14 +1,15 @@
-from flask import Flask, render_template,url_for,redirect,request,flash
-import mysql.connector
-from werkzeug.security import check_password_hash
-from werkzeug.security import generate_password_hash
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_mail import Mail, Message
+from flask import Flask, render_template, request,redirect, url_for,flash
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from model.user import User
+from dbConnection.connection import DbConnect
+from daoServices.crudUser import CrudUserOperation
+from daoServices.crudApplication import *
+from daoServices.crudLogin import CrudLoginOperation 
+
 
 app = Flask(__name__)
 
-app.secret_key = '_5#y2L"F4Q8z\n\xec]/'  # Set a secret key for flashing messages
-# MySQL connection configuration
 mysql_config = {
     'host': 'localhost',
     'user': 'sqluser',
@@ -16,128 +17,95 @@ mysql_config = {
     'database': 'smartpermit'
 }
 
-conn = mysql.connector.connect(**mysql_config)
-cursor = conn.cursor()
-
-print('connection is done!')
+# Initialize CRUD operations
+crud = CrudUserOperation()
+crud_login=CrudLoginOperation()
+db = DbConnect(mysql_config)
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
-@app.route('/application')
-def application():
-    return render_template('index.html')
-
-
-
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST'])
 def register():
     if request.method == 'POST':
-        # Get data from the form
-        first_name = request.form['firstName']
-        last_name = request.form['lastName']
-        national_id = request.form['nationalId']
-        email = request.form['email']
-        cellphone = request.form['cellphone']
-        password_hash = request.form['password']
-        confirm_password = request.form['confirmPassword']
-
-        # Insert data into the users table
-        query = (
-            "INSERT INTO users (firstName, lastName, nationalId, email, cellphone, password_hash, confirmPassword) "
-            "VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        )
-        data = (first_name, last_name, national_id, email, cellphone, password_hash, confirm_password)
-
-        try:
-            cursor.execute(query, data)
-            conn.commit()
-        except Exception as e:
-            conn.rollback()
-            return f"Error: {str(e)}"
-
-        return redirect(url_for('index'))  # Redirect to the homepage or another page after successful registration
-
-    return render_template('register.html')  # Render the registration form
-
-
-
-cursor = conn.cursor(dictionary=True)
-
+       return render_template('login.html')
+   
+@app.route('/welcome')
+def welcome():
+    # Render the welcome page
+    return render_template('welcome.html')
+   
+    
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        # Fetch user from the database as a dictionary
-        query = "SELECT * FROM users WHERE email = %s and password_hash=%s"
-        cursor.execute(query, (username,password))
-        user = cursor.fetchone()
-
-        if user and check_password_hash(user['password_hash'], password):
-            flash('Login successful', 'success')
-            return redirect(url_for('welcome'))
-        else:
-             flash('Invalid username or password. Please try again.', 'error')
-
-    return render_template('welcome.html')
+        # Check user credentials (replace with your own logic)
+        # email = request.form.get('email')
+        # password = request.form.get('password')
+        
+        # if email == 'eslinsengiyumva@gmail' and password == 'password':
+            # Redirect to the next page after successful login
+        return redirect(url_for('welcome'))
+        # else:
+        #     return render_template('login.html', error='Invalid email or password')
+    else:
+        return render_template('login.html')
 
 
+    
+
+  
+@app.route('/application')
+def application():
+    
+    return render_template('application.html')  
 
 
+# # Route for handling form submission
+# @app.route('/create_application', methods=['POST'])
+# def create_application():
+#     # Get form data
+#     full_name = request.form['fullName']
+#     applicant_category = request.form['category']
+#     applicant_type = request.form['applicantType']
+#     national_id = request.form['identity']
+#     teleph_number = request.form['telephoneContact']
+#     email_id = request.form['emailAddress']
+#     date_app = request.form['applicationDate']
+#     # Additional form fields...
 
+#     # Create a new user (if not already exists) or retrieve existing user
+#     #session = Session()
+#     user = session.query(User).filter_by(email_id=email_id).first()
+#     if not user:
+#         user = User(first_name='', last_name='', national_id=national_id, teleph_number=teleph_number,
+#                     email_id=email_id, password='', confirm_password='')
+#         session.add(user)
+#         session.commit()
 
+#     # Create a new water permit application
+#     application = WaterPermitApplication(full_Name=full_name, applicant_category=applicant_category,
+#                                          applicant_type=applicant_type, national_id=national_id,
+#                                          teleph_number=teleph_number, email_id=email_id, date_app=date_app,
+#                                          user_id=user.user_id)
+#     session.add(application)
+#     session.commit()
+#     session.close()
 
-app.config['MAIL_SERVER'] = 'smtp.example.com'  # Replace with your email server
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = 'nssli2@yahoo.fr'
-app.config['MAIL_PASSWORD'] = '#Muhigi83#'
-app.config['MAIL_DEFAULT_SENDER'] = 'nssli2@yahoo.fr'
-
-mail = Mail(app)
+#     return 'Application created successfully'
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
         email = request.form['email']
 
-        # Check if the email exists in the database
-        query = "SELECT * FROM users WHERE email = %s"
-        cursor.execute(query, (email,))
-        user = cursor.fetchone()
-
-        if user:
-            # Generate a temporary password
-            temporary_password = 'new_temporary_password'
-
-            # Update the user's password in the database
-            hashed_temp_password = generate_password_hash(temporary_password)
-            update_query = "UPDATE users SET password_hash = %s WHERE email = %s"
-            cursor.execute(update_query, (hashed_temp_password, email))
-            conn.commit()
-
-            # Send the temporary password to the user's email
-            send_password_reset_email(email, temporary_password)
-
-            flash('Password reset successful. Check your email for the temporary password.', 'success')
-            return redirect(url_for('login'))
-        else:
-            flash('Email not found. Please enter a valid email address.', 'error')
-
     return render_template('forgot_password.html')
 
-def send_password_reset_email(email, temporary_password):
-    subject = 'Password Reset'
-    body = f'Your temporary password is: {temporary_password}'
-    message = Message(subject, recipients=[email], body=body)
-    mail.send(message)
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True)
-    
+    app.run(debug=True)
+
+
+

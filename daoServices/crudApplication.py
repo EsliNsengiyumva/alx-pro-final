@@ -105,7 +105,7 @@ class CrudApplicationOperation:
             
     def create_file_storage(session, id_file, file_type, file_name, file_upload, water_permit_application_id):
         try:
-            new_file_storage = FileStorage(id_file=id_file, file_type=file_type, file_name=file_name, file_upload=file_upload, water_permit_application_id=water_permit_application_id)
+            new_file_storage = WaterDocumentUpload(id_file=id_file, file_type=file_type, file_name=file_name, file_upload=file_upload, water_permit_application_id=water_permit_application_id)
             session.add(new_file_storage)
             session.commit()
         except Exception as e:
@@ -116,7 +116,7 @@ class CrudApplicationOperation:
         
     def get_all_file_storages(session):
         try:
-            return session.query(FileStorage).all()
+            return session.query(WaterDocumentUpload).all()
         except Exception as e:
             print(f"Error fetching all file storages: {e}")
         finally:
@@ -125,7 +125,7 @@ class CrudApplicationOperation:
     
     def update_file_storage(session, file_storage_id, new_id_file, new_file_type, new_file_name, new_file_upload, new_water_permit_application_id):
         try:
-            file_storage = session.query(FileStorage).filter_by(id=file_storage_id).first()
+            file_storage = session.query(WaterDocumentUpload).filter_by(id=file_storage_id).first()
             if file_storage:
                 file_storage.id_file = new_id_file
                 file_storage.file_type = new_file_type
@@ -140,7 +140,7 @@ class CrudApplicationOperation:
 
     def delete_file_storage(session, file_storage_id):
         try:
-            file_storage = session.query(FileStorage).filter_by(id=file_storage_id).first()
+            file_storage = session.query(WaterDocumentUpload).filter_by(id=file_storage_id).first()
             if file_storage:
                 session.delete(file_storage)
                 session.commit()

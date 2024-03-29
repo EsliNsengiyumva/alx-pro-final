@@ -61,40 +61,6 @@ def application():
     
     return render_template('application.html')  
 
-
-# # Route for handling form submission
-# @app.route('/create_application', methods=['POST'])
-# def create_application():
-#     # Get form data
-#     full_name = request.form['fullName']
-#     applicant_category = request.form['category']
-#     applicant_type = request.form['applicantType']
-#     national_id = request.form['identity']
-#     teleph_number = request.form['telephoneContact']
-#     email_id = request.form['emailAddress']
-#     date_app = request.form['applicationDate']
-#     # Additional form fields...
-
-#     # Create a new user (if not already exists) or retrieve existing user
-#     #session = Session()
-#     user = session.query(User).filter_by(email_id=email_id).first()
-#     if not user:
-#         user = User(first_name='', last_name='', national_id=national_id, teleph_number=teleph_number,
-#                     email_id=email_id, password='', confirm_password='')
-#         session.add(user)
-#         session.commit()
-
-#     # Create a new water permit application
-#     application = WaterPermitApplication(full_Name=full_name, applicant_category=applicant_category,
-#                                          applicant_type=applicant_type, national_id=national_id,
-#                                          teleph_number=teleph_number, email_id=email_id, date_app=date_app,
-#                                          user_id=user.user_id)
-#     session.add(application)
-#     session.commit()
-#     session.close()
-
-#     return 'Application created successfully'
-
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
@@ -102,6 +68,16 @@ def forgot_password():
 
     return render_template('forgot_password.html')
 
+
+@app.route('/application', methods=['POST'])
+def submit():
+    # Process form data here if needed
+    # Redirect to success page
+    return redirect(url_for('success'))
+
+@app.route('/success')
+def success():
+    return render_template('success.html')
 
 
 if __name__ == '__main__':
